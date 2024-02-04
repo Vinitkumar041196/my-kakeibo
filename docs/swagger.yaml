@@ -1,0 +1,399 @@
+basePath: /v1/
+definitions:
+  domain.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  domain.ForgotPasswordRequest:
+    properties:
+      confirm_password:
+        type: string
+      new_password:
+        type: string
+    type: object
+  domain.ForgotPasswordResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  domain.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  domain.LoginResponse:
+    properties:
+      message:
+        type: string
+      refresh_token:
+        type: string
+      token:
+        type: string
+    type: object
+  domain.RefreshTokenResponse:
+    properties:
+      message:
+        type: string
+      token:
+        type: string
+    type: object
+  domain.SignUpRequest:
+    properties:
+      confirmPassword:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      password:
+        type: string
+    type: object
+  domain.User:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      password:
+        type: string
+    type: object
+  domain.UserSuccessResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  domain.VerifyEmailAndSendOTPRequest:
+    properties:
+      email:
+        type: string
+    type: object
+  domain.VerifyEmailAndSendOTPResponse:
+    properties:
+      message:
+        type: string
+      token:
+        type: string
+    type: object
+  domain.VerifyOTPRequest:
+    properties:
+      otp:
+        type: string
+    type: object
+  domain.VerifyOTPResponse:
+    properties:
+      message:
+        type: string
+      token:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: Kakeibo API Service
+  version: "1.0"
+paths:
+  /forgotpassword/reset:
+    post:
+      description: Verifies old password and update the new password in DB
+      parameters:
+      - description: token - 'Bearer' followed by a space and JWT token.
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: new password
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/domain.ForgotPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.ForgotPasswordResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "429":
+          description: Too Many Requests
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: ForgotPassword API
+      tags:
+      - Login
+  /forgotpassword/verifyemail:
+    post:
+      description: Sends OTP for forgot password process
+      parameters:
+      - description: email
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/domain.VerifyEmailAndSendOTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.VerifyEmailAndSendOTPResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "429":
+          description: Too Many Requests
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: SendOTP for resetting password
+      tags:
+      - Login
+  /forgotpassword/verifyotp:
+    post:
+      description: Verifies OTP for forgot password process
+      parameters:
+      - description: token - 'Bearer' followed by a space and JWT token.
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: otp
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/domain.VerifyOTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.VerifyOTPResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "429":
+          description: Too Many Requests
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: VerifyOTP API
+      tags:
+      - Login
+  /login:
+    post:
+      description: Validates user credentials and generate token
+      parameters:
+      - description: user login credentials
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/domain.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "429":
+          description: Too Many Requests
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: Login API
+      tags:
+      - Login
+  /refreshtoken:
+    post:
+      description: generates new tokens
+      parameters:
+      - description: refresh token - 'Bearer' followed by a space and JWT token.
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.RefreshTokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: RefreshToken API
+      tags:
+      - Login
+  /signup:
+    post:
+      description: Creates new system user
+      parameters:
+      - description: user details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/domain.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.UserSuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: Create new user
+      tags:
+      - User
+  /user/{user_id}:
+    delete:
+      description: Delete user
+      parameters:
+      - description: user details TODO:to be changed to get the user id from token
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.UserSuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: Delete user
+      tags:
+      - User
+    get:
+      description: Get user details
+      parameters:
+      - description: user details TODO:to be changed to get the user id from token
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: Get user
+      tags:
+      - User
+    put:
+      description: Update user details
+      parameters:
+      - description: user details
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: user details
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/domain.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.UserSuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: Update user
+      tags:
+      - User
+swagger: "2.0"

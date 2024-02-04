@@ -1,0 +1,111 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #f5f5f5;
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+}
+
+
+header {
+    /* background-image: url("path/to/header-image.jpg"); */
+    background-image: url("background1.jpg"); 
+    background-size: cover;
+    background-position: center;
+    flex: 0 0 50%; /* Half the width */
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+header h1 {
+    color: salmon;
+    /* border: solid whitesmoke; */
+    background: whitesmoke;
+    background-blend-mode: darken;
+    border-radius: 5px;
+    font-size: 60px;
+    padding: 20px;
+}
+
+main {
+    flex: 1; /* Take remaining space */
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[id="otp"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+a {
+    color: #1aa9d4;
+    text-decoration: none;
+}
+
+.error {
+    background-color: tomato;
+}
+
+/* Add this to your existing styles */
+.hidden {
+    display: none;
+}
+
+/* ... (Your other styles) */
+
+#form-switcher {
+    display: flex;
+    justify-content: space-between; /* Spread divs across row */
+}
+
+.form-switch {
+    width: 50%; /* Half the width */
+    text-align: center;
+    padding: 15px;
+    /* background-color: #f5f5f5; Optional background */
+    border-radius: 5px; /* Optional rounded corners */
+    cursor: pointer; /* Indicate interactivity */
+    /* color: #1aa9d4; */
+}
+
+.highlighted {
+    background-color: salmon ;
+    color: whitesmoke;
+}

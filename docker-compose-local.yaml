@@ -1,0 +1,51 @@
+version: "3.1"
+services:
+  db:
+    container_name: user_db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: smc@123
+    volumes:
+      - ./db_init.sql:/docker-entrypoint-initdb.d/a.sql
+    ports:
+      - 5434:5432
+    networks:
+      - my-network
+
+  adminer:
+    container_name: db_client
+    image: adminer
+    restart: always
+    ports:
+      - 5435:8080
+    networks:
+      - my-network
+
+  kakeibo-api:
+    container_name: kakeibo-api
+    build: 
+      context: .
+      dockerfile: dockerfile-local
+    command: go run /app/main.go
+    env_file:
+      - .env
+    ports:
+      - "0.0.0.0:8080:8080"
+    dns:
+      - 8.8.8.8
+    networks:
+      - my-network
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./
+          target: /app/
+          ignore:
+            - ./*.yaml
+        - action: rebuild
+          path: go.mod
+
+networks:
+  my-network:
+    external: true

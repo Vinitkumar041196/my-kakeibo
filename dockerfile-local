@@ -1,0 +1,10 @@
+FROM golang:alpine 
+
+RUN apk update && apk add --no-cache tar git curl ca-certificates tzdata
+
+# RUN go install github.com/cespare/reflex@latest
+
+WORKDIR /app
+
+COPY . .
+RUN go mod download
